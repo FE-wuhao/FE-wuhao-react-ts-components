@@ -1,0 +1,11 @@
+// 变量（系统颜色、各种尺寸参数等）
+@import "variables";
+
+// 初始化默认标签样式
+@import "reboot";
+
+// 组件用到的mixin
+@import "mixin";
+
+// 后续添加的组件的style文件
+// ...
