@@ -2,7 +2,7 @@
  * @Author: 吴灏
  * @Date: 2020-10-26 22:54:21
  * @LastEditors: 吴灏
- * @LastEditTime: 2020-10-27 22:14:34
+ * @LastEditTime: 2020-10-27 22:28:56
  * @Description: file content
  */
 /*
@@ -90,7 +90,7 @@ module.exports = {
     "no-script-url": 0, //禁止使用javascript:void(0)
     "no-self-compare": 2, //不能比较自身
     "no-sequences": 0, //禁止使用逗号运算符
-    "no-shadow": 2, //外部作用域中的变量不能与它所包含的作用域中的变量或参数同名
+    // "no-shadow": 2, //外部作用域中的变量不能与它所包含的作用域中的变量或参数同名
     "no-shadow-restricted-names": 2, //严格模式中规定的限制标识符不能作为声明时的变量名使用
     "no-spaced-func": 2, //函数调用时 函数名与()之间不能有空格
     "no-sparse-arrays": 2, //禁止稀疏数组， [1,,2]
@@ -131,13 +131,13 @@ module.exports = {
     "callback-return": 1, //避免多次调用回调什么的
     "camelcase": 2, //强制驼峰法命名
     //"comma-dangle": [2, "never"]
-    "comma-dangle": ["error", {
-      "arrays": "never",
-      "objects": "never",
-      "imports": "never",
-      "exports": "never",
-      "functions": "never"
-    }], //对象字面量项尾不能有逗号
+    // "comma-dangle": ["error", {
+    //   "arrays": "never",
+    //   "objects": "never",
+    //   "imports": "never",
+    //   "exports": "never",
+    //   "functions": "never"
+    // }], //对象字面量项尾不能有逗号
     "comma-spacing": 0, //逗号前后的空格
     "comma-style": [2, "last"], //逗号风格，换行时在行首还是行尾
     "complexity": [0, 11], //循环复杂度

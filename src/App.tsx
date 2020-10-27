@@ -5,7 +5,7 @@ import './styles/index.scss';
 function App() {
   return (
     <div style={{ margin: '20px 20px' }}>
-      <Button btnType='primary'>顶层组件</Button>
+      <Button btnType="primary">顶层组件</Button>
     </div>
   );
 }
