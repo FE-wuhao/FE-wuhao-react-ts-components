@@ -2,7 +2,7 @@
  * @Author: 吴灏
  * @Date: 2020-10-26 22:54:21
  * @LastEditors: 吴灏
- * @LastEditTime: 2020-10-27 23:11:53
+ * @LastEditTime: 2020-10-27 23:16:37
  * @Description: file content
  */
 /*
@@ -16,7 +16,8 @@ module.exports = {
     "react-hooks"
   ],
   "rules": {
-    "react-hooks/rules-of-hooks": "error",// hooks的eslint校验
+    "react-hooks/rules-of-hooks": "error",// hooks语法校验
+    "react-hooks/exhaustive-deps": "warn",// 对hooks依赖校验
     'no-debugger': process.env.NODE_ENV === 'production' ? 2 : 0,
     "no-alert": 0, //禁止使用alert confirm prompt
     "no-array-constructor": 2, //禁止使用数组构造器
