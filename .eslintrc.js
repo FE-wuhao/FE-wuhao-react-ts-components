@@ -2,7 +2,7 @@
  * @Author: 吴灏
  * @Date: 2020-10-26 22:54:21
  * @LastEditors: 吴灏
- * @LastEditTime: 2020-10-27 22:28:56
+ * @LastEditTime: 2020-10-27 22:49:10
  * @Description: file content
  */
 /*
@@ -12,7 +12,7 @@
  */
 module.exports = {
   "extends": "react-app",
-  rules: {
+  "rules": {
     'no-debugger': process.env.NODE_ENV === 'production' ? 2 : 0,
     "no-alert": 0, //禁止使用alert confirm prompt
     "no-array-constructor": 2, //禁止使用数组构造器
