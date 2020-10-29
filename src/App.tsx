@@ -6,24 +6,27 @@ import Table from './components/Table/table';
 function App() {
   return (
     <div style={{ margin: '20px 20px' }}>
-      {/* <Button btnType="primary">顶层组件</Button> */}
       <Table
         border
+        rowBorder
         columns={[
           {
             key: 'col1',
             width: 150,
             title: '列1',
+            align: 'right',
           },
           {
             key: 'col2',
             width: 150,
-            title: '列1',
+            title: '列2',
+            align: 'center',
           },
           {
             key: 'col3',
             width: 150,
-            title: '列1',
+            title: '列3',
+            align: 'left',
           },
         ]}
         dataSource={[

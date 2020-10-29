@@ -2,7 +2,7 @@
  * @Author: 吴灏
  * @Date: 2020-10-26 22:54:21
  * @LastEditors: 吴灏
- * @LastEditTime: 2020-10-29 21:19:07
+ * @LastEditTime: 2020-10-29 22:44:49
  * @Description: file content
  */
 /*
@@ -112,7 +112,7 @@ module.exports = {
     "no-unneeded-ternary": 2, //禁止不必要的嵌套 var isYes = answer === 1 ? true : false;
     "no-unreachable": 2, //不能有无法执行的代码
     "no-unused-expressions": 2, //禁止无用的表达式
-    "no-unused-vars": [2, {
+    "no-unused-vars": [1, {
       "vars": "all",
       "args": "after-used"
     }], //不能有声明后未被使用的变量或参数

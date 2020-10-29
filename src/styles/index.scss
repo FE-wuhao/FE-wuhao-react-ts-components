@@ -1,12 +1,14 @@
 // 变量（系统颜色、各种尺寸参数等）
-@import "variables";
+@import 'variables';
 
 // 初始化默认标签样式
-@import "reboot";
+@import 'reboot';
 
 // 组件用到的mixin
-@import "mixin";
+@import 'mixin';
 
 // 后续添加的组件的style文件
-// .BUTTON
-@import '../components/Button/style'
+// BUTTON
+@import '../components/Button/style';
+// Table
+@import '../components/Table/style';
