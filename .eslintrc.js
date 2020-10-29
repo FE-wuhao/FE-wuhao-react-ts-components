@@ -2,7 +2,7 @@
  * @Author: 吴灏
  * @Date: 2020-10-26 22:54:21
  * @LastEditors: 吴灏
- * @LastEditTime: 2020-10-27 23:16:37
+ * @LastEditTime: 2020-10-29 21:19:07
  * @Description: file content
  */
 /*
@@ -45,7 +45,7 @@ module.exports = {
     "no-extend-native": 2, //禁止扩展native对象
     "no-extra-bind": 2, //禁止不必要的函数绑定
     "no-extra-boolean-cast": 2, //禁止不必要的bool转换
-    "no-extra-parens": 2, //禁止非必要的括号
+    // "no-extra-parens": 2, //禁止非必要的括号
     "no-extra-semi": 2, //禁止多余的冒号
     "no-fallthrough": 1, //禁止switch穿透
     "no-floating-decimal": 2, //禁止省略浮点数中的0 .5 3.
@@ -178,10 +178,10 @@ module.exports = {
     // "max-statements": [0, 10], //函数内最多有几个声明
     // "new-cap": 2, //函数名首行大写必须使用new方式调用，首行小写必须用不带new方式调用
     "new-parens": 2, //new时必须加小括号
-    "newline-after-var": 2, //变量声明后是否需要空一行
+    // "newline-after-var": 2, //变量声明后是否需要空一行
     "object-curly-spacing": [0, "never"], //大括号内是否允许不必要的空格
     "object-shorthand": 0, //强制对象字面量缩写语法
-    "one-var": 1, //连续声明
+    // "one-var": 1, //连续声明
     "operator-assignment": [0, "always"], //赋值运算符 += -=什么的
     "operator-linebreak": [2, "after"], //换行时运算符在行尾还是行首
     "padded-blocks": 0, //块语句内行首行尾是否要空行
