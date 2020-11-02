@@ -83,9 +83,7 @@ function Table<T extends Object>(props: ITableProps<T>) {
       <div className="tb-inner-container">
         <div className="tb-header">
           <div className={tableHeaderSelectDisabled}>
-            {rowSelection?.type === 'checkbox' && (
-              <input type={rowSelection?.type} />
-            )}
+            {rowSelection?.type && <input type={rowSelection?.type} />}
           </div>
           {renderColumn}
         </div>
