@@ -9,12 +9,13 @@ function App() {
       <Table
         border
         rowBorder
+        rowSelection={{ type: 'radio' }}
         columns={[
           {
             key: 'col1',
             width: 150,
             title: '列1',
-            align: 'right',
+            align: 'left',
           },
           {
             key: 'col2',
@@ -26,7 +27,7 @@ function App() {
             key: 'col3',
             width: 150,
             title: '列3',
-            align: 'left',
+            align: 'right',
           },
         ]}
         dataSource={[

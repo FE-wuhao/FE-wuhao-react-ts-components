@@ -20,7 +20,7 @@ $yellow: #fadb14 !default;
 $green: #52c41a !default;
 $teal: #20c997 !default;
 $cyan: #17a2b8 !default;
-$silver: #f0f0f0 !default;
+$silver: #f4f4f4 !default;
 
 $primary: $blue !default;
 $secondary: $gray-600 !default;
@@ -201,4 +201,16 @@ $btn-transition: color 0.15s ease-in-out, background-color 0.15s ease-in-out,
   border-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out !default;
 
 // table
-$table-header-color: #fafafa !default;
+$table-border: $border-width solid $silver !default;
+$table-inner-container-padding: 0.5rem 0.5rem !default;
+$table-select-padding: 0 5px;
+
+$table-header-color: $silver !default;
+$table-header-flex-basis: 2rem !default;
+$table-header-font-weight: $font-size-lg !default;
+$table-header-item-padding: 0px 10px;
+$table-header-item-border-right: 1px solid #dddddd;
+
+$table-row-padding: 0.7rem 0 !default;
+$table-row-border: 1px solid $silver;
+$table-row-item-padding: 0px 10px;

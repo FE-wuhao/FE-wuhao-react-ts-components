@@ -17,6 +17,12 @@ export interface ITableProps<T> {
   border?: boolean;
   rowBorder?: boolean;
   rowClassName?: string;
+  rowKey?: keyof T;
+  rowSelection?: {
+    type?: 'checkbox' | 'radio';
+    onChange?: (selectedRowKeys: keyof T, selectedRows: T[]) => void;
+    onSelectedAll?: (select: boolean, selectedRows: T[]) => void;
+  };
 }
 
 function Table<T extends Object>(props: ITableProps<T>) {
@@ -27,38 +33,65 @@ function Table<T extends Object>(props: ITableProps<T>) {
     border,
     rowBorder,
     rowClassName,
+    rowSelection,
   } = props;
-  const rowStyle = classnames(rowClassName, { [`tb-row-border`]: rowBorder });
-  const tableStyle = classnames('tb', tabelClassName, {
+
+  const tableStyle = classnames(tabelClassName, {
     [`tb-border`]: border,
   });
 
-  const renderColumn = (
-    <tr className="tb-header">
+  const rowStyle = classnames(rowClassName, 'tb-row', {
+    [`tb-row-border`]: rowBorder,
+  });
+  const tableRowSelectDisabled = classnames({
+    'tb-select': rowSelection?.type,
+    'tb-select-disabled': !rowSelection?.type,
+  });
+  const tableHeaderSelectDisabled = classnames({
+    'tb-select': rowSelection?.type === 'checkbox',
+    'tb-select-disabled': rowSelection?.type !== 'checkbox',
+  });
+
+  const renderColumn = columns?.map(column => (
+    <div
+      className="tb-header-item"
+      style={{ width: column.width, textAlign: column.align }}
+      key={column.key as string}
+    >
+      {column.title}
+    </div>
+  ));
+  const renderDataSource = dataSource?.map((row, index) => (
+    <div key={index} className={rowStyle}>
+      <div className={tableRowSelectDisabled}>
+        {rowSelection?.type && <input type={rowSelection?.type} />}
+      </div>
       {columns?.map(column => (
-        <td
-          style={{ width: column.width, textAlign: column.align }}
+        <div
+          className="tb-row-item"
           key={column.key as string}
+          style={{ textAlign: column.align }}
         >
-          {column.title}
-        </td>
+          {row[column.key]}
+        </div>
       ))}
-    </tr>
-  );
-  const renderDataSource = dataSource?.map(row => (
-    <tr className={rowStyle}>
-      {columns?.map(column => (
-        <td style={{ textAlign: column.align }}>{row[column.key]}</td>
-      ))}
-    </tr>
+    </div>
   ));
 
   return (
-    <table className={tableStyle}>
-      <thead>{renderColumn}</thead>
-      <tbody>{renderDataSource}</tbody>
-    </table>
+    <div className={tableStyle}>
+      <div className="tb-inner-container">
+        <div className="tb-header">
+          <div className={tableHeaderSelectDisabled}>
+            {rowSelection?.type === 'checkbox' && (
+              <input type={rowSelection?.type} />
+            )}
+          </div>
+          {renderColumn}
+        </div>
+        <div className="tb-body">{renderDataSource}</div>
+      </div>
+    </div>
   );
 }
-
 export default Table;
