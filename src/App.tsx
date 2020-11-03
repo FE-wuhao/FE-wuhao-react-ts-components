@@ -8,8 +8,9 @@ function App() {
     <div style={{ margin: '20px 20px' }}>
       <Table
         border
+        rowKey="col1"
         rowBorder
-        rowSelection={{ type: 'radio' }}
+        rowSelection={{ type: 'checkbox' }}
         columns={[
           {
             key: 'col1',
