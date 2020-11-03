@@ -10,7 +10,7 @@ function App() {
         border
         rowKey="col1"
         rowBorder
-        rowSelection={{ type: 'checkbox' }}
+        rowSelection={{ type: 'radio', rowClickSelect: true }}
         columns={[
           {
             key: 'col1',

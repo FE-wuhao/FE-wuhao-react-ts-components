@@ -1,4 +1,4 @@
-import React, { useState, useEffect, ChangeEvent } from 'react';
+import React, { useState, useEffect, ChangeEvent, MouseEvent } from 'react';
 import classnames from 'classnames';
 
 export type TAlign = 'left' | 'center' | 'right';
@@ -15,15 +15,17 @@ export interface IColumn<T> {
 }
 
 export interface ITableProps<T> {
+  rowKey: keyof T;
   columns: IColumn<T>[];
   dataSource: T[];
-  tabelClassName?: string;
+  loading?: boolean;
+
   border?: boolean;
   rowBorder?: boolean;
   rowClassName?: string;
-  rowKey: keyof T;
   rowSelection?: {
     type?: TRowSelectElement;
+    rowClickSelect?: boolean;
     onChange?: (
       selectedRowKeys: TSelectedRowKey<T>[],
       selectedRows: T[]
@@ -34,38 +36,41 @@ export interface ITableProps<T> {
       selectedRowKeys: TSelectedRowKey<T>[]
     ) => void;
   };
+  tabelClassName?: string;
 }
 
 function Table<T extends Object>(props: ITableProps<T>) {
   const {
+    rowKey,
     columns,
     dataSource,
-    tabelClassName,
+    loading,
+
     border,
-    rowKey,
     rowBorder,
     rowClassName,
     rowSelection,
+    tabelClassName,
   } = props;
 
   const [selectedRows, setSelectedRows] = useState<T[]>([]);
   const [selectedRowKeys, setSelectedRowKeys] = useState<TSelectedRowKey<T>[]>(
     []
   );
-
+  // 表格样式控制
   const tableStyle = classnames(tabelClassName, {
     [`tb-border`]: border,
   });
-
+  // 表格行样式控制
   const rowStyle = classnames(rowClassName, 'tb-row', {
     [`tb-row-border`]: rowBorder,
   });
-
+  // 表格行勾选框样式控制
   const tableRowSelectDisabled = classnames({
     'tb-select': rowSelection?.type,
     'tb-select-disabled': !rowSelection?.type,
   });
-
+  // 表头勾选框样式控制
   const tableHeaderSelectDisabled = classnames({
     'tb-select': rowSelection?.type === 'checkbox',
     'tb-select-disabled': rowSelection?.type !== 'checkbox',
@@ -76,6 +81,7 @@ function Table<T extends Object>(props: ITableProps<T>) {
     row: T,
     inputType: TRowSelectElement
   ) => {
+    console.log('子事件触发了');
     if (inputType === 'checkbox') {
       if (selected) {
         setSelectedRows([...selectedRows, row]);
@@ -96,6 +102,17 @@ function Table<T extends Object>(props: ITableProps<T>) {
       } else {
         setSelectedRows([]);
         setSelectedRowKeys([]);
+      }
+    }
+  };
+  // 整行点击选中事件
+  const handleRowClickSelect = (row: T, type: TRowSelectElement) => {
+    console.log('父事件触发了');
+    if (rowSelection?.rowClickSelect) {
+      if (selectedRowKeys.includes(row[rowKey])) {
+        handleRowChecked(false, row, type);
+      } else {
+        handleRowChecked(true, row, type);
       }
     }
   };
@@ -122,7 +139,9 @@ function Table<T extends Object>(props: ITableProps<T>) {
           <input
             type={rowSelection?.type}
             checked={selectedRowKeys.length === dataSource.length}
+            onClick={e => e.stopPropagation()}
             onChange={(e: ChangeEvent<HTMLInputElement>) => {
+              e.stopPropagation();
               handleSelectAll(e.target.checked);
             }}
           />
@@ -142,19 +161,28 @@ function Table<T extends Object>(props: ITableProps<T>) {
 
   // 渲染表格行
   const renderDataSource = dataSource?.map((row, index) => (
-    <div key={index} className={rowStyle}>
+    <div
+      key={index}
+      className={rowStyle}
+      onClick={e => {
+        e.stopPropagation();
+        handleRowClickSelect(row, rowSelection?.type as TRowSelectElement);
+      }}
+    >
       {rowSelection?.type && (
         <div className={tableRowSelectDisabled}>
           <input
             type={rowSelection.type}
             checked={selectedRowKeys.includes(row[rowKey])}
-            onChange={(e: ChangeEvent<HTMLInputElement>) =>
+            onClick={e => e.stopPropagation()}
+            onChange={(e: ChangeEvent<HTMLInputElement>) => {
+              e.stopPropagation();
               handleRowChecked(
                 e.target.checked,
                 row,
                 rowSelection.type as TRowSelectElement
-              )
-            }
+              );
+            }}
           />
         </div>
       )}
