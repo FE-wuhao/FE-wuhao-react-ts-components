@@ -21,7 +21,6 @@ export interface ITableProps<T> {
   columns: IColumn<T>[];
   dataSource: T[];
   loading?: boolean;
-
   border?: boolean;
   rowBorder?: boolean;
   rowClassName?: string;
@@ -47,7 +46,6 @@ function Table<T extends Object>(props: ITableProps<T>) {
     columns,
     dataSource,
     loading = false,
-
     border,
     rowBorder,
     rowClassName,
@@ -220,7 +218,7 @@ function Table<T extends Object>(props: ITableProps<T>) {
 
   return (
     <>
-      <Loading display={loading} size="middle" innerMode />
+      <Loading display={loading} size="md" innerMode />
       <div className={tableStyle}>
         <div className="tb-inner-container">
           <div className="tb-header">{renderColumn}</div>

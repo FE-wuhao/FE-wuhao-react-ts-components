@@ -1,7 +1,7 @@
 import React from 'react';
 import classnames from 'classnames';
 
-export type TLoadingSize = 'small' | 'middle' | 'large';
+export type TLoadingSize = 'sm' | 'md' | 'lg';
 
 export interface ILoading {
   display: boolean;
@@ -13,9 +13,7 @@ function Loading(props: ILoading) {
   const { display, size = 'small', innerMode = false } = props;
 
   const loadingClassName = classnames('loading-container', {
-    'loading-size-sm': size === 'small',
-    'loading-size-md': size === 'middle',
-    'loading-size-lg': size === 'large',
+    [`loading-size-${size}`]: size,
   });
 
   const loadingCover = classnames('loading-cover', {
