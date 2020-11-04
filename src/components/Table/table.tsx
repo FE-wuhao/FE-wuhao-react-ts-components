@@ -1,5 +1,6 @@
 import React, { useState, useEffect, ChangeEvent } from 'react';
 import classnames from 'classnames';
+import Loading from '../Loading/loading';
 
 export type TAlign = 'left' | 'center' | 'right';
 
@@ -44,7 +45,7 @@ function Table<T extends Object>(props: ITableProps<T>) {
     rowKey,
     columns,
     dataSource,
-    // loading,
+    loading = false,
 
     border,
     rowBorder,
@@ -211,15 +212,15 @@ function Table<T extends Object>(props: ITableProps<T>) {
   }, [selectedRows, selectedRowKeys, rowSelection]);
 
   return (
-    <div className={tableStyle}>
-      <svg width="50px" height="50px" viewBox="0 0 20 20" className="loading">
-        <circle cx="10" cy="10" r="9" className="circle" fill="none" />
-      </svg>
-      <div className="tb-inner-container">
-        <div className="tb-header">{renderColumn}</div>
-        <div className="tb-body">{renderDataSource}</div>
+    <>
+      <Loading display={loading} size="middle" innerMode />
+      <div className={tableStyle}>
+        <div className="tb-inner-container">
+          <div className="tb-header">{renderColumn}</div>
+          <div className="tb-body">{renderDataSource}</div>
+        </div>
       </div>
-    </div>
+    </>
   );
 }
 export default Table;

@@ -48,34 +48,3 @@
   align-self: center;
   padding: $table-row-item-padding;
 }
-@keyframes loading {
-  0% {
-    stroke-dasharray: 0, 57;
-    stroke-dashoffset: 0;
-  }
-  50% {
-    stroke-dasharray: 57, 0;
-    stroke-dashoffset: -28;
-  }
-  100% {
-    stroke-dasharray: 0, 57;
-    stroke-dashoffset: -57;
-  }
-}
-@keyframes rotate {
-  0% {
-    transform: rotate(0deg);
-  }
-  100% {
-    transform: rotate(360deg);
-  }
-}
-.loading {
-  animation: rotate 1.5s linear infinite;
-
-  .circle {
-    stroke: #106cfa;
-    stroke-width: 5%;
-    animation: loading 3s linear infinite;
-  }
-}

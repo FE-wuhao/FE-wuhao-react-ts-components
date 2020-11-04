@@ -203,14 +203,30 @@ $btn-transition: color 0.15s ease-in-out, background-color 0.15s ease-in-out,
 // table
 $table-border: $border-width solid $silver !default;
 $table-inner-container-padding: 0.5rem 0.5rem !default;
-$table-select-padding: 0 5px;
+$table-select-padding: 0 5px !default;
 
 $table-header-color: $silver !default;
 $table-header-flex-basis: 2rem !default;
 $table-header-font-weight: $font-size-lg !default;
-$table-header-item-padding: 0px 10px;
-$table-header-item-border-right: 1px solid #dddddd;
+$table-header-item-padding: 0px 10px !default;
+$table-header-item-border-right: 1px solid #dddddd !default;
 
 $table-row-padding: 0.7rem 0 !default;
-$table-row-border: 1px solid $silver;
-$table-row-item-padding: 0px 10px;
+$table-row-border: 1px solid $silver !default;
+$table-row-item-padding: 0px 10px !default;
+
+// loading
+$loading-circle-stroke-color: $blue !default;
+$loading-circle-stroke-width: 5% !default;
+
+$loading-size-sm: 20px !default;
+$loading-size-md: 30px !default;
+$loading-size-lg: 40px !default;
+
+$loading-cover-z-index: 99 !default;
+$loading-cover-background-color: rgba(
+  $color: $white,
+  $alpha: 0.8,
+);
+
+$loading-container-z-index: 100 !default;
