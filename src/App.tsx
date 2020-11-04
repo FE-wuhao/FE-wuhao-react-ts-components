@@ -5,12 +5,18 @@ import Table from './components/Table/table';
 
 function App() {
   return (
-    <div style={{ margin: '20px 20px', position: 'relative' }}>
+    <div
+      style={{
+        margin: '20px 20px',
+        position: 'relative',
+        backgroundColor: 'white',
+      }}
+    >
       <Table
         border
         rowKey="col1"
         rowBorder
-        loading={true}
+        // loading={true}
         rowSelection={{ type: 'checkbox', rowClickSelect: true }}
         columns={[
           {
