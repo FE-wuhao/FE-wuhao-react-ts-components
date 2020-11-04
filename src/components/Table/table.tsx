@@ -1,4 +1,4 @@
-import React, { useState, useEffect, ChangeEvent, MouseEvent } from 'react';
+import React, { useState, useEffect, ChangeEvent } from 'react';
 import classnames from 'classnames';
 
 export type TAlign = 'left' | 'center' | 'right';
@@ -44,7 +44,7 @@ function Table<T extends Object>(props: ITableProps<T>) {
     rowKey,
     columns,
     dataSource,
-    loading,
+    // loading,
 
     border,
     rowBorder,
@@ -81,7 +81,7 @@ function Table<T extends Object>(props: ITableProps<T>) {
     row: T,
     inputType: TRowSelectElement
   ) => {
-    console.log('子事件触发了');
+    // console.log('子事件触发了');
     if (inputType === 'checkbox') {
       if (selected) {
         setSelectedRows([...selectedRows, row]);
@@ -107,7 +107,7 @@ function Table<T extends Object>(props: ITableProps<T>) {
   };
   // 整行点击选中事件
   const handleRowClickSelect = (row: T, type: TRowSelectElement) => {
-    console.log('父事件触发了');
+    // console.log('父事件触发了');
     if (rowSelection?.rowClickSelect) {
       if (selectedRowKeys.includes(row[rowKey])) {
         handleRowChecked(false, row, type);
@@ -212,6 +212,9 @@ function Table<T extends Object>(props: ITableProps<T>) {
 
   return (
     <div className={tableStyle}>
+      <svg width="50px" height="50px" viewBox="0 0 20 20" className="loading">
+        <circle cx="10" cy="10" r="9" className="circle" fill="none" />
+      </svg>
       <div className="tb-inner-container">
         <div className="tb-header">{renderColumn}</div>
         <div className="tb-body">{renderDataSource}</div>
