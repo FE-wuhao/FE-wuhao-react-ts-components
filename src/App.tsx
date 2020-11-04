@@ -24,6 +24,9 @@ function App() {
             width: 150,
             title: '列1',
             align: 'left',
+            render: record => {
+              return '测试render:' + record.col1;
+            },
           },
           {
             key: 'col2',

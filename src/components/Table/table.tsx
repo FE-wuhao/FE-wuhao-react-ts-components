@@ -1,4 +1,4 @@
-import React, { useState, useEffect, ChangeEvent } from 'react';
+import React, { useState, useEffect, ChangeEvent, ReactElement } from 'react';
 import classnames from 'classnames';
 import Loading from '../Loading/loading';
 
@@ -13,6 +13,7 @@ export interface IColumn<T> {
   key: keyof T;
   width?: number;
   align?: TAlign;
+  render?: (record: T) => ReactElement | string;
 }
 
 export interface ITableProps<T> {
@@ -151,7 +152,10 @@ function Table<T extends Object>(props: ITableProps<T>) {
       {columns?.map(column => (
         <div
           className="tb-header-item"
-          style={{ width: column.width, textAlign: column.align }}
+          style={{
+            width: column.width || 0,
+            textAlign: column.align,
+          }}
           key={column.key as string}
         >
           {column.title}
@@ -192,9 +196,12 @@ function Table<T extends Object>(props: ITableProps<T>) {
         <div
           className="tb-row-item"
           key={column.key as string}
-          style={{ textAlign: column.align }}
+          style={{
+            width: column.width || 0,
+            textAlign: column.align,
+          }}
         >
-          {row[column.key]}
+          {column?.render?.(row) || row[column.key]}
         </div>
       ))}
     </div>
