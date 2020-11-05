@@ -1,6 +1,7 @@
 import React, { useState, useEffect, ChangeEvent, ReactElement } from 'react';
 import classnames from 'classnames';
 import Loading from '../Loading/loading';
+import Sort, { IDirect } from './sort/sort';
 
 export type TAlign = 'left' | 'center' | 'right';
 
@@ -117,6 +118,11 @@ function Table<T extends Object>(props: ITableProps<T>) {
     }
   };
 
+  // 排序处理函数
+  const handleSort = (key: keyof T, direct: IDirect) => {
+    console.log(key, direct);
+  };
+
   // 全选事件处理函数
   const handleSelectAll = (selected: boolean) => {
     const dataSourceKeys = dataSource.map(row => row[rowKey]);
@@ -157,6 +163,7 @@ function Table<T extends Object>(props: ITableProps<T>) {
           key={column.key as string}
         >
           {column.title}
+          <Sort columnKey={column.key} handleSort={handleSort} />
         </div>
       ))}
     </>

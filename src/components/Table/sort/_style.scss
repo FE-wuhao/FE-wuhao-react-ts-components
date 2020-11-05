@@ -1,0 +1,15 @@
+.table-sort-container {
+  display: inline-block;
+  margin-left: $table-sort-container-margin-left;
+}
+
+.table-sort-svg {
+  vertical-align: baseline;
+}
+.table-sort {
+  stroke: $table-sort-color;
+  fill: $table-sort-color;
+}
+.table-sort-fill {
+  fill: $table-sort-full-color;
+}
