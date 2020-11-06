@@ -1,15 +1,16 @@
-.table-sort-container {
+.sort-container {
   display: inline-block;
   margin-left: $table-sort-container-margin-left;
+  user-select: none;
 }
 
-.table-sort-svg {
+.sort-svg {
   vertical-align: baseline;
 }
-.table-sort {
+.sort {
   stroke: $table-sort-color;
   fill: $table-sort-color;
 }
-.table-sort-fill {
+.sort-fill {
   fill: $table-sort-full-color;
 }

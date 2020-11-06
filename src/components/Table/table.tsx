@@ -1,7 +1,7 @@
 import React, { useState, useEffect, ChangeEvent, ReactElement } from 'react';
 import classnames from 'classnames';
 import Loading from '../Loading/loading';
-import Sort, { IDirect } from './sort/sort';
+import Sort, { IDirect } from '../Sort/sort';
 
 export type TAlign = 'left' | 'center' | 'right';
 
@@ -119,7 +119,7 @@ function Table<T extends Object>(props: ITableProps<T>) {
   };
 
   // 排序处理函数
-  const handleSort = (key: keyof T, direct: IDirect) => {
+  const handleSort = (direct: IDirect, key: keyof T) => {
     console.log(key, direct);
   };
 
@@ -163,7 +163,7 @@ function Table<T extends Object>(props: ITableProps<T>) {
           key={column.key as string}
         >
           {column.title}
-          <Sort columnKey={column.key} handleSort={handleSort} />
+          <Sort handleSort={handleSort} handleSortRestProps={column.key} />
         </div>
       ))}
     </>

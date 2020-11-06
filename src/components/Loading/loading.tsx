@@ -24,8 +24,8 @@ function Loading(props: ILoading) {
   return display ? (
     <div className={loadingCover}>
       <div className={loadingClassName}>
-        <svg viewBox="0 0 20 20" className="loading">
-          <circle cx="10" cy="10" r="9" className="circle" fill="none" />
+        <svg x="0" y="0" viewBox="0 0 20 20" className="loading">
+          <circle cx="10" cy="10" r="9" className="circle" />
         </svg>
       </div>
     </div>

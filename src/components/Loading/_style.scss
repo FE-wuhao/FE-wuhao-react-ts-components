@@ -58,6 +58,7 @@
   animation: rotate 1.5s linear infinite;
 
   .circle {
+    fill: none;
     stroke: $loading-circle-stroke-color;
     stroke-width: $loading-circle-stroke-width;
     animation: loading 3s linear infinite;

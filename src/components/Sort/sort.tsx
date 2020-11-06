@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import classnames from 'classnames';
 
 export type IDirect = 'NONE' | 'ASC' | 'DESC';
@@ -10,39 +10,39 @@ export enum EDirect {
 }
 
 export interface IProps<T> {
-  columnKey: keyof T;
-  handleSort: (curColumnKey: keyof T, direct: IDirect) => void;
+  handleSort: (direct: IDirect, ...[...restProps]) => void;
+  handleSortRestProps?: T; // 可扩展自定义参数
 }
 
 function Sort<T>(props: IProps<T>) {
-  const { columnKey, handleSort } = props;
+  const { handleSort, handleSortRestProps } = props;
 
   const [dir, setDir] = useState(0);
 
-  const up = classnames('table-sort', {
-    'table-sort-fill': dir === 1,
+  const up = classnames('sort', {
+    'sort-fill': dir === 1,
   });
 
-  const down = classnames('table-sort', {
-    'table-sort-fill': dir === 2,
+  const down = classnames('sort', {
+    'sort-fill': dir === 2,
   });
 
   return (
     <div
-      className="table-sort-container"
+      className="sort-container"
       onClick={() => {
         setDir(pre => (pre === 2 ? 0 : pre + 1));
-        handleSort(columnKey, EDirect[dir] as IDirect);
+        handleSort(EDirect[dir] as IDirect, handleSortRestProps);
       }}
     >
       <svg
-        className="table-sort-svg"
+        className="sort-svg"
         width="7"
         height="14"
         viewBox="0 0 10 20"
         onClick={() => {
           setDir(pre => (pre === 2 ? 0 : pre + 1));
-          handleSort(columnKey, EDirect[dir] as IDirect);
+          handleSort(EDirect[dir] as IDirect, handleSortRestProps);
         }}
       >
         <polyline points="0 8,5 0,10 8,0 8" className={up} />
