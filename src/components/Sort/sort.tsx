@@ -35,16 +35,7 @@ function Sort<T>(props: IProps<T>) {
         handleSort(EDirect[dir] as IDirect, handleSortRestProps);
       }}
     >
-      <svg
-        className="sort-svg"
-        width="7"
-        height="14"
-        viewBox="0 0 10 20"
-        onClick={() => {
-          setDir(pre => (pre === 2 ? 0 : pre + 1));
-          handleSort(EDirect[dir] as IDirect, handleSortRestProps);
-        }}
-      >
+      <svg className="sort-svg" width="7" height="14" viewBox="0 0 10 20">
         <polyline points="0 8,5 0,10 8,0 8" className={up} />
         <polyline points="0 12,5 20,10 12,0 12" className={down} />
       </svg>

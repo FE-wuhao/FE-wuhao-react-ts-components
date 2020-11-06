@@ -143,13 +143,13 @@ function Table<T extends Object>(props: ITableProps<T>) {
   ) => {
     const [key, sortFunc] = restProps;
 
-    if (direct === 'ASC') {
-      setDataSource(
-        sortFunc ?
-          dataSource.sort(sortFunc) :
-          dataSource.sort((a, b) => a[key] - b[key])
-      );
-    }
+    // if (direct === 'ASC') {
+    //   setDataSource(
+    //     sortFunc ?
+    //       dataSource.sort(sortFunc) :
+    //       dataSource.sort((a, b) => a[key] - b[key])
+    //   );
+    // }
 
     console.log(key, direct);
   };
