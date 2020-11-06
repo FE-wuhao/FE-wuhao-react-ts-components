@@ -9,11 +9,15 @@ export type TRowSelectElement = 'checkbox' | 'radio';
 
 export type TSelectedRowKey<T> = T[keyof T];
 
+export type TSortFunc<T> = (a: T, b: T) => number;
+
 export interface IColumn<T> {
   title: string;
   key: keyof T;
   width?: number;
   align?: TAlign;
+  sort?: boolean;
+  sortFunction?: TSortFunc<T>;
   render?: (record: T) => ReactElement | string;
 }
 
@@ -45,7 +49,7 @@ function Table<T extends Object>(props: ITableProps<T>) {
   const {
     rowKey,
     columns,
-    dataSource,
+    dataSource: ds,
     loading = false,
     border,
     rowBorder,
@@ -53,6 +57,20 @@ function Table<T extends Object>(props: ITableProps<T>) {
     rowSelection,
     tabelClassName,
   } = props;
+
+  const [dataSource, setDataSource] = useState(ds);
+
+  useEffect(() => {
+    let isNextRender = false;
+
+    if (!isNextRender) {
+      setDataSource(ds);
+    }
+
+    return () => {
+      isNextRender = true;
+    };
+  }, [ds]);
 
   const [selectedRows, setSelectedRows] = useState<T[]>([]);
   const [selectedRowKeys, setSelectedRowKeys] = useState<TSelectedRowKey<T>[]>(
@@ -119,7 +137,20 @@ function Table<T extends Object>(props: ITableProps<T>) {
   };
 
   // 排序处理函数
-  const handleSort = (direct: IDirect, key: keyof T) => {
+  const handleSort = (
+    direct: IDirect,
+    restProps: [key: keyof T, sortFunc: TSortFunc<T>]
+  ) => {
+    const [key, sortFunc] = restProps;
+
+    if (direct === 'ASC') {
+      setDataSource(
+        sortFunc ?
+          dataSource.sort(sortFunc) :
+          dataSource.sort((a, b) => a[key] - b[key])
+      );
+    }
+
     console.log(key, direct);
   };
 
@@ -163,7 +194,10 @@ function Table<T extends Object>(props: ITableProps<T>) {
           key={column.key as string}
         >
           {column.title}
-          <Sort handleSort={handleSort} handleSortRestProps={column.key} />
+          <Sort
+            handleSort={handleSort}
+            handleSortRestProps={[column.key, column.sortFunction]}
+          />
         </div>
       ))}
     </>
