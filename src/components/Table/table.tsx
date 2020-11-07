@@ -145,13 +145,19 @@ function Table<T extends Object>(props: ITableProps<T>) {
 
     if (direct === 'ASC') {
       setDataSource(
-        sortFunc ?
-          dataSource.sort(sortFunc) :
-          dataSource.sort((a, b) => a[key] - b[key])
+        sortFunc
+          ? [...dataSource].sort(sortFunc)
+          : [...dataSource].sort((a, b) => (a[key] > b[key] ? 1 : -1))
       );
+    } else if (direct === 'DESC') {
+      setDataSource(
+        sortFunc
+          ? [...dataSource].sort(sortFunc).reverse()
+          : [...dataSource].sort((a, b) => (a[key] > b[key] ? 1 : -1)).reverse()
+      );
+    } else {
+      setDataSource(ds);
     }
-
-    console.log(key, direct);
   };
 
   // 全选事件处理函数
