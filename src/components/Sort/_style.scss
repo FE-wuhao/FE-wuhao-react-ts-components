@@ -1,11 +1,6 @@
-.sort-container {
-  display: inline-block;
-  margin-left: $table-sort-container-margin-left;
-  user-select: none;
-}
-
 .sort-svg {
   vertical-align: baseline;
+  user-select: none; // 取消点击选中文字
 }
 .sort {
   stroke: $table-sort-color;

@@ -29,7 +29,10 @@
   font-weight: $table-header-font-weight;
   border-right: $table-header-item-border-right;
 }
-
+.tb-header-item-font {
+  display: inline-block;
+  margin-right: $table-header-item-font-margin-left;
+}
 .tb-body {
   display: flex;
   flex-flow: column nowrap;

@@ -16,7 +16,7 @@ function App() {
         border
         rowKey="col1"
         rowBorder
-        // loading={true}
+        loading={true}
         rowSelection={{ type: 'checkbox', rowClickSelect: true }}
         columns={[
           {

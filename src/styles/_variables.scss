@@ -208,6 +208,7 @@ $table-select-padding: 0 5px !default;
 $table-header-color: $silver !default;
 $table-header-flex-basis: 2rem !default;
 $table-header-font-weight: $font-weight-bold !default;
+$table-header-item-font-margin-left: 10px;
 $table-header-item-padding: 0px 10px !default;
 $table-header-item-border-right: 1px solid #dddddd !default;
 
@@ -232,6 +233,6 @@ $loading-cover-background-color: rgba(
 $loading-container-z-index: 100 !default;
 
 // sort
-$table-sort-container-margin-left: 10px;
+
 $table-sort-color: $gray-500;
 $table-sort-full-color: $gray-800;
