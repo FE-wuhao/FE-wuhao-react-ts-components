@@ -60,20 +60,33 @@ function Table<T extends Object>(props: ITableProps<T>) {
 
   const [dataSource, setDataSource] = useState(ds);
 
-  type sortKeyType<T> = {
+  type TSortKey<T> = {
     key: keyof T;
     direction: TDirect;
   };
 
-  const sortKeys: sortKeyType<T>[] = [
+  interface IInfo {
+    id: number;
+    name: string;
+    age: number;
+  }
+
+  const sortKeys = [
     { key: 'id' as keyof T, direction: 'ASC' },
     { key: 'name' as keyof T, direction: 'ASC' },
+  ];
+
+  const info: IInfo[] = [
+    { id: 1, name: 'wuhao', age: 25 },
+    { id: 1, name: 'majian', age: 25 },
+    { id: 3, name: 'xiaohong', age: 25 },
+    { id: 2, name: 'zhouxin', age: 25 },
   ];
 
   function sortFunc<T>(
     a: T,
     b: T,
-    keys: sortKeyType<T>[],
+    keys: TSortKey<T>[],
     priority: number
   ): number {
     if (priority === keys.length) {
@@ -93,14 +106,8 @@ function Table<T extends Object>(props: ITableProps<T>) {
     }
     return 0;
   }
-  const info = [
-    { id: 1, name: 'wuhao', age: 25 },
-    { id: 1, name: 'majian', age: 25 },
-    { id: 3, name: 'xiaohong', age: 25 },
-    { id: 2, name: 'zhouxin', age: 25 },
-  ];
 
-  console.log(info.sort((a, b) => sortFunc(a, b, sortKeys, 0)));
+  console.log(info.sort((a, b) => sortFunc<IInfo>(a, b, sortKeys, 0)));
 
   useEffect(() => {
     let isNextRender = false;
