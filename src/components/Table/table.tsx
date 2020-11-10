@@ -97,12 +97,10 @@ function Table<T extends Object>(props: ITableProps<T>) {
     }
 
     if (a[currentKey] > b[currentKey]) {
-      // return -1;
       return currentDirection === 'ASC' ? 1 : -1;
     }
     if (a[currentKey] < b[currentKey]) {
       return currentDirection === 'ASC' ? -1 : 1;
-      // return 1;
     }
     if (a[currentKey] === b[currentKey]) {
       return sortFunc(a, b, keys, priority + 1);
