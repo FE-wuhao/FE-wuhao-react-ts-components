@@ -1,3 +1,4 @@
+// 蒙层
 .loading-cover {
   background-color: $loading-cover-background-color;
   z-index: $loading-cover-z-index;
@@ -9,7 +10,6 @@
 .loading-cover-position-fixed {
   position: fixed;
 }
-
 .loading-cover-position-absolute {
   position: absolute;
 }

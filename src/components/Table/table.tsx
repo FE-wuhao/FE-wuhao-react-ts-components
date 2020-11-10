@@ -71,9 +71,9 @@ function Table<T extends Object>(props: ITableProps<T>) {
     age: number;
   }
 
-  const sortKeys = [
-    { key: 'id' as keyof T, direction: 'ASC' },
-    { key: 'name' as keyof T, direction: 'ASC' },
+  const sortKeys: TSortKey<IInfo>[] = [
+    { key: 'id', direction: 'DESC' },
+    { key: 'name', direction: 'DESC' },
   ];
 
   const info: IInfo[] = [
@@ -89,17 +89,20 @@ function Table<T extends Object>(props: ITableProps<T>) {
     keys: TSortKey<T>[],
     priority: number
   ): number {
-    if (priority === keys.length) {
-      return 0;
-    }
     const currentKey = keys[priority].key;
     const currentDirection = keys[priority].direction;
 
+    if (priority === keys.length) {
+      return 0;
+    }
+
     if (a[currentKey] > b[currentKey]) {
-      return currentDirection === 'DESC' ? -1 : 1;
+      // return -1;
+      return currentDirection === 'ASC' ? 1 : -1;
     }
     if (a[currentKey] < b[currentKey]) {
-      return currentDirection === 'ASC' ? 1 : -1;
+      return currentDirection === 'ASC' ? -1 : 1;
+      // return 1;
     }
     if (a[currentKey] === b[currentKey]) {
       return sortFunc(a, b, keys, priority + 1);
