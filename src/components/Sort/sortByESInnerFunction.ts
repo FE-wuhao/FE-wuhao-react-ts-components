@@ -2,10 +2,10 @@
  * @Author: 吴灏
  * @Date: 2020-11-10 13:59:25
  * @LastEditors: 吴灏
- * @LastEditTime: 2020-11-10 14:04:00
+ * @LastEditTime: 2020-11-10 16:58:57
  * @Description: file content
  */
-import { TDirect } from './sort';
+import { TDirect } from '../Sort/sort';
 
 type TSortKey<T> = {
   key: keyof T;
@@ -28,7 +28,19 @@ const info: IInfo[] = [
   { id: 1, name: 'majian', age: 25 },
   { id: 3, name: 'xiaohong', age: 25 },
   { id: 2, name: 'zhouxin', age: 25 },
+  { id: 1, name: 'wuhao', age: 25 },
+  { id: 1, name: 'majian', age: 25 },
+  { id: 3, name: 'xiaohong', age: 25 },
+  { id: 2, name: 'zhouxin', age: 25 },
+  { id: 1, name: 'wuhao', age: 25 },
+  { id: 1, name: 'majian', age: 25 },
 ];
+
+let a = [];
+
+for (let i = 0; i < 10000; i++) {
+  a.push(...info);
+}
 
 function sortFunc<T>(
   a: T,
@@ -54,4 +66,6 @@ function sortFunc<T>(
   return 0;
 }
 
+console.time();
 console.log(info.sort((a, b) => sortFunc(a, b, sortKeys, 0)));
+console.timeEnd();
