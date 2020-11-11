@@ -16,7 +16,7 @@ function App() {
         border
         rowKey="col1"
         rowBorder
-        loading={true}
+        // loading={true}
         rowSelection={{ type: 'checkbox', rowClickSelect: true }}
         columns={[
           {
@@ -42,9 +42,16 @@ function App() {
           },
         ]}
         dataSource={[
-          { col1: '数据1', col2: '数据1', col3: '数据1' },
-          { col1: '数据2', col2: '数据2', col3: '数据2' },
-          { col1: '数据3', col2: '数据3', col3: '数据3' },
+          { col1: '王家', col2: 13, col3: 180 },
+          { col1: '王家话', col2: 10, col3: 168 },
+          { col1: '王家话', col2: 15, col3: 175 },
+          { col1: '王家城', col2: 19, col3: 165 },
+          { col1: '王嘉诚', col2: 12, col3: 180 },
+          { col1: '湖人', col2: 22, col3: 180 },
+          { col1: '王家话', col2: 15, col3: 172 },
+          { col1: 'amy', col2: 15, col3: 172 },
+          { col1: '湖人', col2: 22, col3: 185 },
+          { col1: 'amy', col2: 23, col3: 190 },
         ]}
       />
     </div>

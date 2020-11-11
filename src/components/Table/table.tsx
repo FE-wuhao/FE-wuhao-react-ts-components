@@ -1,26 +1,29 @@
-import React, { useState, useEffect, ChangeEvent, ReactElement } from 'react';
+/* eslint-disable indent */
+import React, {
+  useState,
+  useRef,
+  useEffect,
+  ChangeEvent,
+  ReactElement,
+} from 'react';
 import classnames from 'classnames';
 import Loading from '../Loading/loading';
-import Sort, { TDirect } from '../Sort/sort';
+import Sort, { TDirect, TSortKey } from '../Sort/sort';
 
 export type TAlign = 'left' | 'center' | 'right';
-
 export type TRowSelectElement = 'checkbox' | 'radio';
-
 export type TSelectedRowKey<T> = T[keyof T];
-
 export type TSortFunc<T> = (a: T, b: T) => number;
-
 export interface IColumn<T> {
   title: string;
   key: keyof T;
   width?: number;
   align?: TAlign;
-  sort?: boolean;
-  sortFunction?: TSortFunc<T>;
+  sort?: {
+    enabled: boolean;
+  };
   render?: (record: T) => ReactElement | string;
 }
-
 export interface ITableProps<T> {
   rowKey: keyof T;
   columns: IColumn<T>[];
@@ -59,18 +62,7 @@ function Table<T extends Object>(props: ITableProps<T>) {
   } = props;
 
   const [dataSource, setDataSource] = useState(ds);
-
-  useEffect(() => {
-    let isNextRender = false;
-
-    if (!isNextRender) {
-      setDataSource(ds);
-    }
-
-    return () => {
-      isNextRender = true;
-    };
-  }, [ds]);
+  const sortKeys = useRef<TSortKey<T>[]>([]);
 
   const [selectedRows, setSelectedRows] = useState<T[]>([]);
   const [selectedRowKeys, setSelectedRowKeys] = useState<TSelectedRowKey<T>[]>(
@@ -135,31 +127,79 @@ function Table<T extends Object>(props: ITableProps<T>) {
       }
     }
   };
+  // 排序函数
+  const sortFunction = (
+    a: T,
+    b: T,
+    keys: TSortKey<T>[],
+    priority: number
+  ): number => {
+    if (priority === keys.length) {
+      return 0;
+    }
 
+    const currentKey = keys[priority].key;
+    const currentDirection = keys[priority].direction;
+
+    const dirToNum = (currentDirection: TDirect) => {
+      switch (currentDirection) {
+        case 'ASC':
+          return 1;
+        case 'DESC':
+          return -1;
+        case 'NONE':
+          return 0;
+        default:
+          return 0;
+      }
+    };
+
+    if (a[currentKey] > b[currentKey]) {
+      return dirToNum(currentDirection);
+    }
+    if (a[currentKey] < b[currentKey]) {
+      return -dirToNum(currentDirection);
+    }
+
+    if (a[currentKey] === b[currentKey]) {
+      return sortFunction(a, b, keys, priority + 1);
+    }
+    return 0;
+  };
   // 排序处理函数
-  const handleSort = (
-    direct: TDirect,
-    restProps: [key: keyof T, sortFunc: TSortFunc<T>]
-  ) => {
-    const [key, sortFunc] = restProps;
-
-    if (direct === 'ASC') {
-      setDataSource(
-        sortFunc
-          ? [...dataSource].sort(sortFunc)
-          : [...dataSource].sort((a, b) => (a[key] > b[key] ? 1 : -1))
+  const handleSort = (sortKey: TSortKey<T>) => {
+    const { key, direction } = sortKey;
+    // 该排序列是否已存储过
+    const keyAlreadyExist =
+      sortKeys.current.filter(sortKey => sortKey.key === key).length > 0;
+    // 没有则添加至数组
+    if (!keyAlreadyExist) {
+      sortKeys.current.push({ key, direction });
+    } else if (direction === 'NONE') {
+      // 删除key
+      sortKeys.current = sortKeys.current.filter(
+        sortKey => sortKey.key !== key
       );
-    } else if (direct === 'DESC') {
-      setDataSource(
-        sortFunc
-          ? [...dataSource].sort(sortFunc).reverse()
-          : [...dataSource].sort((a, b) => (a[key] > b[key] ? 1 : -1)).reverse()
+    } else {
+      // 更新数组
+      sortKeys.current = sortKeys.current.map(sortKey => {
+        if (sortKey.key === key) {
+          return { key, direction };
+        }
+        return sortKey;
+      });
+    }
+    // 排序
+    if (sortKeys.current.length) {
+      const sortedDS = [...dataSource].sort((a, b) =>
+        sortFunction(a, b, sortKeys.current, 0)
       );
+      // 更新排序后的数组
+      setDataSource(sortedDS);
     } else {
       setDataSource(ds);
     }
   };
-
   // 全选事件处理函数
   const handleSelectAll = (selected: boolean) => {
     const dataSourceKeys = dataSource.map(row => row[rowKey]);
@@ -173,7 +213,6 @@ function Table<T extends Object>(props: ITableProps<T>) {
       rowSelection?.onSelectedAll?.(selected, [], []);
     }
   };
-
   // 渲染表头
   const renderColumn = (
     <>
@@ -200,15 +239,11 @@ function Table<T extends Object>(props: ITableProps<T>) {
           key={column.key as string}
         >
           <div className="tb-header-item-font">{column.title}</div>
-          <Sort
-            handleSort={handleSort}
-            handleSortRestProps={[column.key, column.sortFunction]}
-          />
+          <Sort columnKey={column.key} handleSort={handleSort} />
         </div>
       ))}
     </>
   );
-
   // 渲染表格行
   const renderDataSource = dataSource?.map((row, index) => (
     <div
@@ -251,7 +286,6 @@ function Table<T extends Object>(props: ITableProps<T>) {
       ))}
     </div>
   ));
-
   // 监听行选中
   useEffect(() => {
     let isNextRender = false;
@@ -262,7 +296,18 @@ function Table<T extends Object>(props: ITableProps<T>) {
       isNextRender = true;
     };
   }, [selectedRows, selectedRowKeys, rowSelection]);
+  // 根据传入的数据的改变更新datasource
+  useEffect(() => {
+    let isNextRender = false;
 
+    if (!isNextRender) {
+      setDataSource(ds);
+    }
+
+    return () => {
+      isNextRender = true;
+    };
+  }, [ds]);
   return (
     <>
       <Loading display={loading} size="md" innerMode />

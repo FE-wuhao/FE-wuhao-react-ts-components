@@ -1,8 +1,9 @@
+/* eslint-disable no-console */
 /*
  * @Author: 吴灏
  * @Date: 2020-11-10 13:59:25
  * @LastEditors: 吴灏
- * @LastEditTime: 2020-11-10 16:58:57
+ * @LastEditTime: 2020-11-11 15:50:25
  * @Description: file content
  */
 import { TDirect } from '../Sort/sort';
