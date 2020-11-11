@@ -50,4 +50,7 @@
   flex: 1 1 auto;
   align-self: center;
   padding: $table-row-item-padding;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+  overflow: hidden;
 }
