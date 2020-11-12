@@ -9,6 +9,7 @@ import React, {
 import classnames from 'classnames';
 import Loading from '../Loading/loading';
 import Sort, { TDirect, TSortKey } from '../Sort/sort';
+import Scroll from '../Scroll/scroll';
 
 export type TAlign = 'left' | 'center' | 'right';
 export type TRowSelectElement = 'checkbox' | 'radio';
@@ -62,12 +63,11 @@ function Table<T extends Object>(props: ITableProps<T>) {
   } = props;
 
   const [dataSource, setDataSource] = useState(ds);
-  const sortKeys = useRef<TSortKey<T>[]>([]);
-
   const [selectedRows, setSelectedRows] = useState<T[]>([]);
   const [selectedRowKeys, setSelectedRowKeys] = useState<TSelectedRowKey<T>[]>(
     []
   );
+  const sortKeys = useRef<TSortKey<T>[]>([]);
   // 表格样式控制
   const tableStyle = classnames(tabelClassName, {
     [`tb-border`]: border,
@@ -140,7 +140,6 @@ function Table<T extends Object>(props: ITableProps<T>) {
 
     const currentKey = keys[priority].key;
     const currentDirection = keys[priority].direction;
-
     const dirToNum = (currentDirection: TDirect) => {
       switch (currentDirection) {
         case 'ASC':
@@ -160,13 +159,13 @@ function Table<T extends Object>(props: ITableProps<T>) {
     if (a[currentKey] < b[currentKey]) {
       return -dirToNum(currentDirection);
     }
-
     if (a[currentKey] === b[currentKey]) {
       return sortFunction(a, b, keys, priority + 1);
     }
+
     return 0;
   };
-  // 排序处理函数
+  // 排序按钮点击处理函数
   const handleSort = (sortKey: TSortKey<T>) => {
     const { key, direction } = sortKey;
     // 该排序列是否已存储过
@@ -213,6 +212,28 @@ function Table<T extends Object>(props: ITableProps<T>) {
       rowSelection?.onSelectedAll?.(selected, [], []);
     }
   };
+  // 监听行选中
+  useEffect(() => {
+    let isNextRender = false;
+    if (!isNextRender) {
+      rowSelection?.onChange?.(selectedRowKeys, selectedRows);
+    }
+    return () => {
+      isNextRender = true;
+    };
+  }, [selectedRows, selectedRowKeys, rowSelection]);
+  // 根据传入的数据的改变更新datasource
+  useEffect(() => {
+    let isNextRender = false;
+
+    if (!isNextRender) {
+      setDataSource(ds);
+    }
+
+    return () => {
+      isNextRender = true;
+    };
+  }, [ds]);
   // 渲染表头
   const renderColumn = (
     <>
@@ -271,7 +292,6 @@ function Table<T extends Object>(props: ITableProps<T>) {
           />
         </div>
       )}
-
       {columns?.map(column => (
         <div
           className="tb-row-item"
@@ -286,28 +306,6 @@ function Table<T extends Object>(props: ITableProps<T>) {
       ))}
     </div>
   ));
-  // 监听行选中
-  useEffect(() => {
-    let isNextRender = false;
-    if (!isNextRender) {
-      rowSelection?.onChange?.(selectedRowKeys, selectedRows);
-    }
-    return () => {
-      isNextRender = true;
-    };
-  }, [selectedRows, selectedRowKeys, rowSelection]);
-  // 根据传入的数据的改变更新datasource
-  useEffect(() => {
-    let isNextRender = false;
-
-    if (!isNextRender) {
-      setDataSource(ds);
-    }
-
-    return () => {
-      isNextRender = true;
-    };
-  }, [ds]);
   return (
     <>
       <Loading display={loading} size="md" innerMode />
@@ -317,6 +315,7 @@ function Table<T extends Object>(props: ITableProps<T>) {
           <div className="tb-body">{renderDataSource}</div>
         </div>
       </div>
+      <Scroll />
     </>
   );
 }

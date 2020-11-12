@@ -1,0 +1,16 @@
+.container {
+  width: 300px;
+  position: relative;
+  background-color: blue;
+  overflow: scroll;
+}
+.scroll {
+  position: absolute;
+  left: 0;
+  right: 0;
+  z-index: -1;
+}
+.test-item {
+  background-color: purple;
+  border: 1px solid black;
+}
