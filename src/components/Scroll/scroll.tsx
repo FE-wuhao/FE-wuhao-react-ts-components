@@ -2,7 +2,7 @@ import React, { useState, useRef } from 'react';
 
 const Scroll: React.FC = () => {
   const data: number[] = [];
-  for (let i = 0; i < 100; i++) {
+  for (let i = 0; i < 100000; i++) {
     data.push(i);
   }
   const itemHeight = 50;
