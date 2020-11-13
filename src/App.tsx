@@ -4,6 +4,22 @@ import './styles/index.scss';
 import Table from './components/Table/table';
 
 function App() {
+  let ds = [
+    { col1: '王家', col2: 13, col3: 180 },
+    { col1: '王家话', col2: 10, col3: 168 },
+    { col1: '王家话', col2: 15, col3: 175 },
+    { col1: '王家城', col2: 19, col3: 165 },
+    { col1: '王嘉诚', col2: 12, col3: 180 },
+    { col1: '湖人', col2: 22, col3: 180 },
+    { col1: '王家话', col2: 15, col3: 172 },
+    { col1: 'amy', col2: 15, col3: 172 },
+    { col1: '湖人', col2: 22, col3: 185 },
+    { col1: 'amy', col2: 23, col3: 190 },
+  ];
+  for (let i = 0; i < 10; i++) {
+    ds.push(...ds);
+  }
+
   return (
     <div
       style={{
@@ -17,7 +33,14 @@ function App() {
         rowKey="col1"
         rowBorder
         // loading={true}
-        rowSelection={{ type: 'checkbox', rowClickSelect: true }}
+        rowSelection={{
+          type: 'checkbox',
+          rowClickSelect: true,
+        }}
+        virtualScroll={{
+          enable: true,
+          tableHeight: 700,
+        }}
         columns={[
           {
             key: 'col1',
@@ -41,18 +64,7 @@ function App() {
             align: 'right',
           },
         ]}
-        dataSource={[
-          { col1: '王家111111111111111111111111', col2: 13, col3: 180 },
-          { col1: '王家话', col2: 10, col3: 168 },
-          { col1: '王家话', col2: 15, col3: 175 },
-          { col1: '王家城', col2: 19, col3: 165 },
-          { col1: '王嘉诚', col2: 12, col3: 180 },
-          { col1: '湖人', col2: 22, col3: 180 },
-          { col1: '王家话', col2: 15, col3: 172 },
-          { col1: 'amy', col2: 15, col3: 172 },
-          { col1: '湖人', col2: 22, col3: 185 },
-          { col1: 'amy', col2: 23, col3: 190 },
-        ]}
+        dataSource={ds}
       />
     </div>
   );

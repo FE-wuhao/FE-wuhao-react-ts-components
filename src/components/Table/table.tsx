@@ -47,6 +47,11 @@ export interface ITableProps<T> {
     ) => void;
   };
   tabelClassName?: string;
+  virtualScroll?: {
+    enable: boolean;
+    tableHeight?: number;
+    itemHeight?: number;
+  };
 }
 
 function Table<T extends Object>(props: ITableProps<T>) {
@@ -60,6 +65,7 @@ function Table<T extends Object>(props: ITableProps<T>) {
     rowClassName,
     rowSelection,
     tabelClassName,
+    virtualScroll,
   } = props;
 
   const [dataSource, setDataSource] = useState(ds);
@@ -96,7 +102,7 @@ function Table<T extends Object>(props: ITableProps<T>) {
     if (inputType === 'checkbox') {
       if (selected) {
         setSelectedRows([...selectedRows, row]);
-        setSelectedRowKeys([...selectedRows, row].map(row => row[rowKey]));
+        setSelectedRowKeys([...selectedRowKeys, row[rowKey]]);
       } else {
         setSelectedRows(
           selectedRows.filter(
@@ -266,46 +272,59 @@ function Table<T extends Object>(props: ITableProps<T>) {
     </>
   );
   // 渲染表格行
-  const renderDataSource = dataSource?.map((row, index) => (
-    <div
-      key={index}
-      className={rowStyle}
-      onClick={e => {
-        e.stopPropagation();
-        handleRowClickSelect(row, rowSelection?.type as TRowSelectElement);
-      }}
-    >
-      {rowSelection?.type && (
-        <div className={tableRowSelectDisabled}>
-          <input
-            type={rowSelection.type}
-            checked={selectedRowKeys.includes(row[rowKey])}
-            onClick={e => e.stopPropagation()}
-            onChange={(e: ChangeEvent<HTMLInputElement>) => {
-              e.stopPropagation();
-              handleRowChecked(
-                e.target.checked,
-                row,
-                rowSelection.type as TRowSelectElement
-              );
+  const renderDataSource = (() => {
+    const formattedDS = dataSource?.map((row, index) => (
+      <div
+        key={index}
+        className={rowStyle}
+        onClick={e => {
+          e.stopPropagation();
+          handleRowClickSelect(row, rowSelection?.type as TRowSelectElement);
+        }}
+      >
+        {rowSelection?.type && (
+          <div className={tableRowSelectDisabled}>
+            <input
+              type={rowSelection.type}
+              checked={selectedRowKeys.includes(row[rowKey])}
+              onClick={e => e.stopPropagation()}
+              onChange={(e: ChangeEvent<HTMLInputElement>) => {
+                e.stopPropagation();
+                handleRowChecked(
+                  e.target.checked,
+                  row,
+                  rowSelection.type as TRowSelectElement
+                );
+              }}
+            />
+          </div>
+        )}
+        {columns?.map(column => (
+          <div
+            className="tb-row-item"
+            key={column.key as string}
+            style={{
+              width: column.width || 0,
+              textAlign: column.align,
             }}
-          />
-        </div>
-      )}
-      {columns?.map(column => (
-        <div
-          className="tb-row-item"
-          key={column.key as string}
-          style={{
-            width: column.width || 0,
-            textAlign: column.align,
-          }}
-        >
-          {column?.render?.(row) || row[column.key]}
-        </div>
-      ))}
-    </div>
-  ));
+          >
+            {column?.render?.(row) || row[column.key]}
+          </div>
+        ))}
+      </div>
+    ));
+
+    if (virtualScroll?.enable) {
+      return (
+        <Scroll
+          height={virtualScroll.tableHeight}
+          itemHeight={virtualScroll.itemHeight}
+          dataSource={formattedDS}
+        />
+      );
+    }
+    return formattedDS;
+  })();
   return (
     <>
       <Loading display={loading} size="md" innerMode />
@@ -315,7 +334,6 @@ function Table<T extends Object>(props: ITableProps<T>) {
           <div className="tb-body">{renderDataSource}</div>
         </div>
       </div>
-      <Scroll />
     </>
   );
 }
