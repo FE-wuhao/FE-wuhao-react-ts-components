@@ -99,6 +99,8 @@ function Table<T extends Object>(props: ITableProps<T>) {
     inputType: TRowSelectElement
   ) => {
     // console.log('子事件触发了');
+
+    console.time('handleRowChecked');
     if (inputType === 'checkbox') {
       if (selected) {
         setSelectedRows([...selectedRows, row]);
@@ -121,10 +123,12 @@ function Table<T extends Object>(props: ITableProps<T>) {
         setSelectedRowKeys([]);
       }
     }
+    console.timeEnd('handleRowChecked');
   };
   // 整行点击选中事件
   const handleRowClickSelect = (row: T, type: TRowSelectElement) => {
     // console.log('父事件触发了');
+    console.time('handleRowClickSelect');
     if (rowSelection?.rowClickSelect) {
       if (selectedRowKeys.includes(row[rowKey])) {
         handleRowChecked(false, row, type);
@@ -132,6 +136,7 @@ function Table<T extends Object>(props: ITableProps<T>) {
         handleRowChecked(true, row, type);
       }
     }
+    console.timeEnd('handleRowClickSelect');
   };
   // 排序函数
   const sortFunction = (
@@ -207,6 +212,7 @@ function Table<T extends Object>(props: ITableProps<T>) {
   };
   // 全选事件处理函数
   const handleSelectAll = (selected: boolean) => {
+    console.time('handleSelectAll');
     const dataSourceKeys = dataSource.map(row => row[rowKey]);
     if (selected) {
       setSelectedRows(dataSource);
@@ -217,6 +223,7 @@ function Table<T extends Object>(props: ITableProps<T>) {
       setSelectedRowKeys([]);
       rowSelection?.onSelectedAll?.(selected, [], []);
     }
+    console.timeEnd('handleSelectAll');
   };
   // 监听行选中
   useEffect(() => {
@@ -273,6 +280,7 @@ function Table<T extends Object>(props: ITableProps<T>) {
   );
   // 渲染表格行
   const renderDataSource = (() => {
+    console.time('renderDataSource');
     const formattedDS = dataSource?.map((row, index) => (
       <div
         key={index}
@@ -313,7 +321,7 @@ function Table<T extends Object>(props: ITableProps<T>) {
         ))}
       </div>
     ));
-
+    console.timeEnd('renderDataSource');
     if (virtualScroll?.enable) {
       return (
         <Scroll
@@ -323,6 +331,7 @@ function Table<T extends Object>(props: ITableProps<T>) {
         />
       );
     }
+
     return formattedDS;
   })();
   return (

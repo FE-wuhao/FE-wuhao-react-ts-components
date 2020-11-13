@@ -16,7 +16,10 @@ function App() {
     { col1: '湖人', col2: 22, col3: 185 },
     { col1: 'amy', col2: 23, col3: 190 },
   ];
-  for (let i = 0; i < 10; i++) {
+  // 一万行数据js需要303ms的计算时间
+  // 4万行数据需要1125ms的计算时间
+
+  for (let i = 0; i < 12; i++) {
     ds.push(...ds);
   }
 
